@@ -56,42 +56,56 @@ public class ViajesLocal {
 			switch (opcion) {
 			case 0: // Guardar los datos en el fichero y salir del programa
 
-				// POR IMPLEMENTAR
+				gestor.guardaDatos();
 
 				break;
 
 			case 1: { // Consultar viajes con un origen dado
-
-				// POR IMPLEMENTAR
+				System.out.print("Introduce el origen del viaje: ");
+				String orig = teclado.nextLine();
+				gestor.consultaViajes(orig);
 
 				break;
 			}
 
 			case 2: { // Reservar un viaje
-
-				// POR IMPLEMENTAR
+				System.out.print("Introduce el codigo del viaje: ");
+				String codigo = teclado.nextLine();
+				gestor.reservaViaje(codigo,codcli);
 
 				break;
 			}
 
 			case 3: { // Anular una reserva
 
-				// POR IMPLEMENTAR
+				System.out.print("Introduce el codigo del viaje a anular: ");
+				String codigo = teclado.nextLine();
+				gestor.anulaReserva(codigo,codcli);
 
 				break;
 			}
 
 			case 4: { // Ofertar un viaje
 
-				// POR IMPLEMENTAR
-
+				System.out.print("Introduce el origen del viaje: ");
+				String orig = teclado.nextLine();
+				System.out.print("Introduce el destino del viaje: ");
+				String dest = teclado.nextLine();
+				System.out.print("Introduce la fecha del viaje: ");
+				String fecha = teclado.nextLine();
+				System.out.print("Introduce el precio del viaje: ");
+				long precio = teclado.nextLong();
+				System.out.print("Introduce el numero de plazas del viaje: ");
+				long plazas = teclado.nextLong();
+				gestor.ofertaViaje(codcli,orig,dest,fecha,precio,plazas);
 				break;
 			}
 
 			case 5: { // Borrar un viaje ofertado
 
-				// POR IMPLEMENTAR
-
+				System.out.print("Introduce el codigo del viaje ofertado a borrar: ");
+				String codigo = teclado.nextLine();
+				gestor.borraViaje(codigo,codcli);
 				break;
 			}
 

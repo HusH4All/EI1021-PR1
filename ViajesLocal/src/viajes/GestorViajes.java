@@ -217,6 +217,7 @@ public class GestorViajes {
 	 * @return	JSONObject con los datos del viaje ofertado
 	 */
 	public JSONObject ofertaViaje(String codcli, String origen, String destino, String fecha, long precio, long numplazas) {
+		/* falta comprobar que la fecha sea valida con el metodo es_fecha_valida */
 		Viaje viaje = new Viaje(codcli, origen, destino, fecha, precio, numplazas);
 		mapa.put(viaje.getCodviaje(), viaje);
 		JSONObject jsonObject = viaje.toJSON();
