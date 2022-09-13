@@ -67,7 +67,15 @@ public class Viaje implements Serializable {
 		this.fecha = (String) json.get("fecha");
 		this.precio = (long) json.get("precio");
 		this.numplazas = (long) json.get("numplazas");
-		this.pasajeros = (Vector<String>) json.get("pasajeros");
+		JSONArray jsonArray = (JSONArray)json.get("pasajeros");
+		Vector<String> pasajeros= new Vector<>();
+		if (jsonArray != null) {
+			int len = jsonArray.size();
+			for (int i=0;i<len;i++){
+				pasajeros.add(jsonArray.get(i).toString());
+			}
+		}
+		this.pasajeros = pasajeros;
 		this.codviaje = this.construyeCodviaje();
 	}
 

@@ -63,8 +63,7 @@ public class ViajesLocal {
 			case 1: { // Consultar viajes con un origen dado
 				System.out.print("Introduce el origen del viaje: ");
 				String orig = teclado.nextLine();
-				gestor.consultaViajes(orig);
-
+				System.out.print(gestor.consultaViajes(orig).toString());
 				break;
 			}
 

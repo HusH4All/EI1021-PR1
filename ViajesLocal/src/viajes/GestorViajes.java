@@ -72,9 +72,12 @@ public class GestorViajes {
 	 * @param os	stream de escritura asociado al fichero de datos
 	 */
 	private void escribeFichero(FileWriter os) throws IOException {
+		JSONArray lista = new JSONArray();
 		for (String codViaje : mapa.keySet()){
-			os.write(mapa.get(codViaje).toString());
+			lista.add(mapa.get(codViaje).toJSON());
+
 		}
+		os.write(lista.toJSONString());
 	}
 
 
