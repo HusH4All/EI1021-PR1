@@ -2,10 +2,13 @@ package viajes;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.Vector;
 
 public class Viaje implements Serializable {
@@ -54,9 +57,18 @@ public class Viaje implements Serializable {
 	 *
 	 * @param jsonViaje
 	 */
-	public Viaje(JSONObject jsonViaje) {
+	public Viaje(JSONObject jsonViaje) throws ParseException {
 		super();
-		// POR IMPLEMENTAR
+		JSONParser parser = new JSONParser();
+		JSONObject json = (JSONObject) parser.parse(jsonViaje.toJSONString());
+		this.codprop = (String) json.get("codprop");
+		this.origen = (String) json.get("origen");
+		this.destino = (String) json.get("destino");
+		this.fecha = (String) json.get("fecha");
+		this.precio = (long) json.get("precio");
+		this.numplazas = (long) json.get("numplazas");
+		this.pasajeros = (Vector<String>) json.get("pasajeros");
+		this.codviaje = this.construyeCodviaje();
 	}
 
 	/**
@@ -75,8 +87,16 @@ public class Viaje implements Serializable {
 	 * @return	objeto JSON con los datos del Viaje
 	 */
 	public JSONObject toJSON() {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("codprop", this.codprop);
+		jsonObject.put("origen", this.origen);
+		jsonObject.put("destino", this.destino);
+		jsonObject.put("fecha", this.fecha);
+		jsonObject.put("precio", this.precio);
+		jsonObject.put("numplazas", this.numplazas);
+		jsonObject.put("pasajeros", this.pasajeros);
+		jsonObject.put("codviaje", this.codviaje);
+		return jsonObject; // MODIFICAR
 	}
 
 	/**
