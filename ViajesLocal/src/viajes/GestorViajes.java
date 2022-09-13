@@ -71,8 +71,10 @@ public class GestorViajes {
 	 * 
 	 * @param os	stream de escritura asociado al fichero de datos
 	 */
-	private void escribeFichero(FileWriter os) {
-		// POR IMPLEMENTAR
+	private void escribeFichero(FileWriter os) throws IOException {
+		for (String codViaje : mapa.keySet()){
+			os.write(mapa.get(codViaje).toString());
+		}
 	}
 
 
@@ -123,8 +125,11 @@ public class GestorViajes {
 	 *
 	 * @param array	JSONArray con los datos de los Viajes
 	 */
-	private void rellenaDiccionario(JSONArray array) {
-		// POR IMPLEMENTAR
+	private void rellenaDiccionario(JSONArray array) throws ParseException {
+		for (Object jsonObject : array){
+			Viaje viaje = new Viaje((JSONObject) jsonObject);
+			mapa.put(viaje.getCodviaje(), viaje);
+		}
 	}
 
 
@@ -135,8 +140,13 @@ public class GestorViajes {
 	 * @return JSONArray de viajes con un origen dado. Vacío si no hay viajes disponibles con ese origen
 	 */
 	public JSONArray consultaViajes(String origen) {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		JSONArray jsonArray = new JSONArray();
+		for(String codViaje : mapa.keySet()){
+			Viaje viaje = mapa.get(codViaje);
+			if (viaje.getOrigen().equals(origen))
+				jsonArray.add(viaje.toJSON());
+		}
+		return jsonArray;
 	}
 
 
@@ -148,8 +158,13 @@ public class GestorViajes {
 	 * @return JSONObject con la información del viaje. Vacío si no existe o no está disponible
 	 */
 	public JSONObject reservaViaje(String codviaje, String codcli) {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		Viaje viaje = mapa.get(codviaje);
+		JSONObject jsonObject = new JSONObject();
+		if (!viaje.finalizado() && viaje.quedanPlazas()){
+			viaje.anyadePasajero(codcli);
+			jsonObject = viaje.toJSON();
+		}
+		return jsonObject;
 	}
 
 	/**
@@ -160,8 +175,13 @@ public class GestorViajes {
 	 * @return	JSON del viaje en que se ha anulado la reserva. JSON vacio si no se ha anulado
 	 */
 	public JSONObject anulaReserva(String codviaje, String codcli) {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		Viaje viaje = mapa.get(codviaje);
+		JSONObject jsonObject = new JSONObject();
+		if (!viaje.finalizado() && viaje.getPasajeros().contains(codcli)){
+			viaje.borraPasajero(codcli);
+			jsonObject = viaje.toJSON();
+		}
+		return jsonObject;
 	}
 
 	/**
@@ -197,8 +217,10 @@ public class GestorViajes {
 	 * @return	JSONObject con los datos del viaje ofertado
 	 */
 	public JSONObject ofertaViaje(String codcli, String origen, String destino, String fecha, long precio, long numplazas) {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		Viaje viaje = new Viaje(codcli, origen, destino, fecha, precio, numplazas);
+		mapa.put(viaje.getCodviaje(), viaje);
+		JSONObject jsonObject = viaje.toJSON();
+		return jsonObject;
 	}
 
 
@@ -211,8 +233,12 @@ public class GestorViajes {
 	 * @return	JSONObject del viaje borrado. JSON vacio si no se ha borrado
 	 */
 	public JSONObject borraViaje(String codviaje, String codcli) {
-		// POR IMPLEMENTAR
-		return null; // MODIFICAR
+		JSONObject jsonObject = new JSONObject();
+		if(codcli.equals(mapa.get(codviaje).getCodprop())){
+			jsonObject = mapa.get(codviaje).toJSON();
+			mapa.remove(codviaje);
+		}
+		return jsonObject;
 	}
 
 
