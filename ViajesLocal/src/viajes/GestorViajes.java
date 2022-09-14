@@ -163,7 +163,7 @@ public class GestorViajes {
 	public JSONObject reservaViaje(String codviaje, String codcli) {
 		Viaje viaje = mapa.get(codviaje);
 		JSONObject jsonObject = new JSONObject();
-		if (!viaje.finalizado() && viaje.quedanPlazas()){
+		if (viaje!=null && !viaje.finalizado() && viaje.quedanPlazas()  ){
 			viaje.anyadePasajero(codcli);
 			jsonObject = viaje.toJSON();
 		}
