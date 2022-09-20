@@ -162,8 +162,8 @@ public class GestorViajes {
 	 */
 	public JSONObject reservaViaje(String codviaje, String codcli) {
 		Viaje viaje = mapa.get(codviaje);
-		JSONObject jsonObject = new JSONObject();
-		if (viaje!=null && !viaje.finalizado() && viaje.quedanPlazas()  ){
+		JSONObject jsonObject = null;
+		if (viaje!=null && !viaje.finalizado() && viaje.quedanPlazas() && !viaje.getCodprop().equals(codcli)){
 			viaje.anyadePasajero(codcli);
 			jsonObject = viaje.toJSON();
 		}
@@ -179,8 +179,8 @@ public class GestorViajes {
 	 */
 	public JSONObject anulaReserva(String codviaje, String codcli) {
 		Viaje viaje = mapa.get(codviaje);
-		JSONObject jsonObject = new JSONObject();
-		if (!viaje.finalizado() && viaje.getPasajeros().contains(codcli)){
+		JSONObject jsonObject = null;
+		if (viaje!=null && !viaje.finalizado() && viaje.getPasajeros().contains(codcli)){
 			viaje.borraPasajero(codcli);
 			jsonObject = viaje.toJSON();
 		}
@@ -220,10 +220,14 @@ public class GestorViajes {
 	 * @return	JSONObject con los datos del viaje ofertado
 	 */
 	public JSONObject ofertaViaje(String codcli, String origen, String destino, String fecha, long precio, long numplazas) {
-		/* falta comprobar que la fecha sea valida con el metodo es_fecha_valida */
-		Viaje viaje = new Viaje(codcli, origen, destino, fecha, precio, numplazas);
-		mapa.put(viaje.getCodviaje(), viaje);
-		JSONObject jsonObject = viaje.toJSON();
+		JSONObject jsonObject = null;
+		if(es_fecha_valida(fecha)) {
+			Viaje viaje = new Viaje(codcli, origen, destino, fecha, precio, numplazas);
+			mapa.put(viaje.getCodviaje(), viaje);
+			jsonObject = viaje.toJSON();
+		}
+		else
+			System.out.println("Fecha no valida");
 		return jsonObject;
 	}
 
@@ -237,7 +241,7 @@ public class GestorViajes {
 	 * @return	JSONObject del viaje borrado. JSON vacio si no se ha borrado
 	 */
 	public JSONObject borraViaje(String codviaje, String codcli) {
-		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonObject = null;
 		if(codcli.equals(mapa.get(codviaje).getCodprop())){
 			jsonObject = mapa.get(codviaje).toJSON();
 			mapa.remove(codviaje);

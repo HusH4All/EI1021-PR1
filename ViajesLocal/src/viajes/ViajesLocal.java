@@ -63,15 +63,20 @@ public class ViajesLocal {
 			case 1: { // Consultar viajes con un origen dado
 				System.out.print("Introduce el origen del viaje: ");
 				String orig = teclado.nextLine();
-				System.out.print(gestor.consultaViajes(orig).toString());
+				if(gestor.consultaViajes(orig).isEmpty())
+					System.out.println("No existen viajes desde ese origen.");
+				else
+					System.out.print(gestor.consultaViajes(orig).toString());
 				break;
 			}
 
 			case 2: { // Reservar un viaje
 				System.out.print("Introduce el codigo del viaje: ");
 				String codigo = teclado.nextLine();
-				gestor.reservaViaje(codigo,codcli);
-
+				if(gestor.reservaViaje(codigo,codcli) == null)
+					System.out.println("No se ha podido reservar");
+				else
+					System.out.println("Viaje reservado correctamente");
 				break;
 			}
 
@@ -79,8 +84,11 @@ public class ViajesLocal {
 
 				System.out.print("Introduce el codigo del viaje a anular: ");
 				String codigo = teclado.nextLine();
-				gestor.anulaReserva(codigo,codcli);
 
+				if(gestor.anulaReserva(codigo,codcli) == null)
+					System.out.println("No se ha podido anular");
+				else
+					System.out.println("Viaje anulado correctamente");
 				break;
 			}
 
