@@ -112,7 +112,11 @@ public class ViajesLocal {
 
 				System.out.print("Introduce el codigo del viaje ofertado a borrar: ");
 				String codigo = teclado.nextLine();
-				gestor.borraViaje(codigo,codcli);
+
+				if(gestor.borraViaje(codigo,codcli) == null)
+					System.out.println("No se ha podido borrar");
+				else
+					System.out.println("Viaje borrado correctamente");
 				break;
 			}
 
